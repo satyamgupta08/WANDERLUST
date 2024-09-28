@@ -65,7 +65,7 @@ if(process.env.NODE_ENV != "production"){
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
-res.locals.url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+res.locals.url = req.originalUrl || https://wanderlust-yhnd.onrender.com;
     console.log(req.originalUrl);
     next();
   });
