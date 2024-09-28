@@ -55,7 +55,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session(sessionConfig));
+app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
