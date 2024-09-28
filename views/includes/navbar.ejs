@@ -1,58 +1,71 @@
 <style>
-  
-  .btn-search:hover{
+  .btn-search {
     background-color: #fe424d;
-    color: #ffff;
+    color: #fff;
+    height: 2.5rem;
+    width: 10rem;
+    border-radius: 1.5rem;
+    padding: 0 1rem;
   }
-  .btn-search{
+  .btn-search:hover {
     background-color: #fe424d;
-    color: #ffff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+    color: #fff;
   }
   .btn-search i {
     display: inline;
     margin-right: 0.5rem;
   }
-  .search-input{
-    border-radius: 20px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
+  .search-input {
+    border-radius: 1.5rem;
+    padding: 0.5rem 3rem;
+    font-size: 1rem;
   }
-
-  
-
 </style>
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/listings"><i class="fa-solid fa-ghost"></i></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          
-          <a class="nav-link logo" href="/listings">WanderLust</a>
-        </ul>
-        </div>
-          <div class="navbar-nav ms-auto">
-            <form class="d-flex" role="search" >
-              <input class="form-control me-2 search-input" type="search" placeholder="Search destination">
-              <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass-location"></i>Search</button>
-            </form>
-          </div>
-          
+<nav class="navbar sticky-top navbar-expand-md navbar-light bg-body-light border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex">
+          <input class="form-control search-input me-2" type="search" name="search" placeholder="Search destinations">
+          <button class="btn btn-search" type="button" onclick="
+          var search = document.querySelector('.search-input').value;
+          var url = '<%= url %>'; // Make sure `url` is defined in your template
+          window.location.href = url + '&search=' + encodeURIComponent(search);
+        ">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Search
+        </button>
         
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Add your home</a>
-          <% if (!currUser) { %>
-            <a class="nav-link "  href="/signup"><b>SignUp</b></a>
-            <a class="nav-link" href="/login"><b>Login</b></a>
-          <%} %>
-          <% if (currUser) { %>
-          <a class="nav-link" href="/logout"><b>Log Out</b></a>
-          <%} %>
-        </div>
+           
+        </form>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Signup</b></a>
+          <a class="nav-link" href="/login"><b>Log In</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
+<!-- 
+<script>
+  // function search() {
+  //   var search = document.querySelector('.search-input').value;
+  //   console.log(functio)
+  //   var url = "<%= url %>"; // Make sure `url` is defined in your template
+  //   window.location.href = url + '?search=' + encodeURIComponent(search);
+  // }
+</script> -->

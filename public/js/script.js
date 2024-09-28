@@ -17,3 +17,9 @@
     }, false)
   })
 })()
+
+function search() {
+  var search = document.querySelector('.search-input').value;
+  var url = "<%= url %>"; // Make sure `url` is defined in your template
+  window.location.href = url + '?search=' + encodeURIComponent(search);
+}

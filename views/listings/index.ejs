@@ -1,133 +1,223 @@
-<% layout("/layouts/boilerplate.ejs") %>
-  <style>
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .filter {
-      text-align: center;
-      margin-right: 2rem;
-      margin-top: 1rem;
-      opacity: 0.7;
-    }
+<% layout("/layouts/boilerplate") %>
+<style>
+  #filters {
+    display: flex;
+    margin-top: 0rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-    .filter:hover{
-      opacity: 1;
-      cursor: pointer;
-    }
-    .filter p{
-      font-size: 0.8rem;
-    }
-    .tax-info{
-      display: none;
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 0.5em;
+    opacity: 0.7;
+  }
+  
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .filter p {
+    font-size: 0.8rem;
+  }
+  a{
+    text-decoration: none;
+  color: black;
+  }
+  .tax-info{
+    display: none;
+  }
+  .tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 2.5rem;
+    padding: 1rem;
+    margin-left: 3rem;
+    display: flex; 
+   margin-bottom: 0.5rem;
+    align-items: center;
+  }
+@media (max-width:1300px) and ( min-width:900px) {
+  .filter{
+    margin-right: 1rem ;
+
+  }
+  
+}
+@media (max-width:1100px) and ( min-width:900px) {
+  .filter{
+    margin-right: 0.5rem ;
+
+  }
+  .tax-toggle{
+    margin-left: 1rem;
+  }
+}
+@media (max-width:900px) and (min-width:500px) {
+  .filter{
+    margin-right: 2.1rem;
+  }
+  .tax-toggle{
+    margin-left: 3.9rem;
+  }
+}
+@media (max-width:500px) and (min-width:300px) {
+  .filter{
+    margin-right: 0.4rem;
     }
     .tax-toggle{
-           border: 0.1px #00000099 solid; 
-            background-color: #fff; 
-            border-radius: 10px; 
-            box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.3); 
-            padding: 20px;
-           display: flex;
-           height: 2.5rem;
-           align-items: center;
-           margin-left: 1rem;
-           margin-top: 0.4rem;
-            
-      
-    }
-    
-  </style>
-    
-  <div id="filters">
-     <div class="filter">
-      <div><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-bed"></i></div>
-      <p>Rooms</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-mountain-city"></i></div>
-      <p>Iconic City</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-mountain-sun"></i></div>
-      <p>Mountains</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-brands fa-fort-awesome"></i></div>
-      <p>Castles</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-regular fa-snowflake"></i></div>
-      <p>Arctic</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-tents"></i></div>
-      <p>Camping</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-wheat-awn"></i></div>
-      <p>Farms</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-person-swimming"></i></div>
-      <p>Amazing Pool</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-umbrella-beach"></i></div>
-      <p>Beach</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-sailboat"></i></i></div>
-      <p>Island</p> 
-     </div>
-     <div class="filter">
-      <div><i class="fa-solid fa-plane-departure"></i></i></i></div>
-      <p>Foreign Trip</p> 
-     </div>
-     
-    <div class="tax-toggle ">
-      <div class="form-check-reverse form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes </label>
-      </div>
-    </div>
-  </div>
-
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-
-      <% for(let listing of allListings){ %>
-        <a href="/listings/<%= listing._id %>" class="listing-link">
-        <div class="card col listing-card" >
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
-
-            <div class="card-img-overlay"></div>
-
-            <div class="card-body">
-              <p class="card-text">
-                <b><%= listing.title %> </b><br>
-                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
-              </p>
-            </div>
-          </div>
-        </a>
-          <%}%>
-    </div>
-<script>
-  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-  taxSwitch.addEventListener("click",() => {
-    let taxInfo  = document.getElementsByClassName("tax-info") ;
-    for(info of taxInfo){
-      if(info.style.display !="inline"){
-        info.style.display ="inline";
-      }else{
-        info.style.display ="none";
+      margin-left: 1rem;
       }
-      
-    }
-  })
-</script>
+      }
+</style>
+<% if (flashMessage && flashMessage.length > 0) { %>
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check-circle-fill" viewBox="0 0 16 16">
+      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+    <symbol id="info-fill" viewBox="0 0 16 16">
+      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+    <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+  </svg>
 
+
+    <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show col-6 offset-3" role="alert">
+        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:" width="16" height="16"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            <%= flashMessage[0] %> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+<% } %>
+<div id="filters">
+  <a class="fil">
+    <div class="filter" id="filter-rooms">
+      <div> <i class="fa-solid fa-bed"></i> </div>
+      <p>Rooms</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-iconic-cities">
+      <div> <i class="fa-solid fa-mountain-city"></i> </div>
+      <p>Iconic Cities</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-mountains">
+      <div> <i class="fa-solid fa-mountain"></i> </div>
+      <p>Mountains</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-castles">
+      <div> <i class="fa-solid fa-fort-awesome"></i> </div>
+      <p>Castles</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-pools">
+      <div> <i class="fa-solid fa-person-swimming"></i> </div>
+      <p>Amazing Pools</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-camping">
+      <div> <i class="fa-solid fa-campground"></i> </div>
+      <p>Camping</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-farms">
+      <div> <i class="fa-solid fa-cow"></i> </div>
+      <p>Farms</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-arctic">
+      <div> <i class="fa-solid fa-snowflake"></i> </div>
+      <p>Arctic</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-beach">
+      <div> <i class="fa-solid fa-umbrella-beach"></i> </div>
+      <p>Beach</p>
+    </div>
+  </a>
+  <a class="fil">
+    <div class="filter" id="filter-arctic">
+      <div> <i class="fa-solid fa-igloo"></i> </div>
+      <p>Domes</p>
+    </div>
+  </a> 
+  <a class="fil">
+    <div class="filter" id="filter-beach">
+      <div> <i class="fa-solid fa-ship"></i> </div>
+      <p>Boats</p>
+    </div>
+    </a>
+    <div class="tax-toggle">
+<div class="form-check-reverse form-switch">
+  <input class="form-check-input"
+   type="checkbox" role="switch" 
+   id="flexSwitchCheckDefault"
+  />
+  <label class="form-check-label" for="flexSwitchCheckDefault">
+    Default total after taxes</label>
+</div>
+    </div>
+
+
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row mt-3">
+  <% for (let listing of allListings) { %>
+    <a href="/listings/<%= listing.id %>" class="listing-link">
+      <div class="card listing-card col" style="width: 20rem;">
+        <img 
+          src="<%= listing.image.url %>"  
+          alt="listing_image" class="card-img-top"
+          style="height: 18rem;">
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing.title %></b>  
+            <br/>
+            &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
+            <i class="tax-info">&nbsp; &nbsp;+18%GST</i>
+          </p>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<script>
+  document.querySelectorAll('.fil').forEach(filter => {
+    filter.addEventListener('click', () => {
+      const category = filter.querySelector('p').innerText.trim();
+      window.location.href = `?category=${encodeURIComponent(category)}`;
+    });
+  });
+
+
+  let taxSwitch=document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", ()=> {
+    let taxInfo=document.getElementsByClassName("tax-info");
+    for(info of taxInfo){
+      if(info.style.display!="inline"){
+      info.style.display="inline";}
+      else{
+        info.style.display="none";
+
+      }
+    }
+    console.log("clicked")
+ })
+</script>
