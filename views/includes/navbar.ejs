@@ -22,6 +22,29 @@
   }
 </style>
 
+<style>
+  .btn-search {
+    background-color: #fe424d;
+    color: #fff;
+    height: 2.5rem;
+    width: 10rem;
+    border-radius: 1.5rem;
+    padding: 0 1rem;
+  }
+  .btn-search:hover {
+    background-color: #fe424d;
+    color: #fff;
+  }
+  .btn-search i {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+  .search-input {
+    border-radius: 1.5rem;
+    padding: 0.5rem 3rem;
+    font-size: 1rem;
+  }
+</style>
 <nav class="navbar sticky-top navbar-expand-md navbar-light bg-body-light border-bottom">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
@@ -34,18 +57,12 @@
         <a class="nav-link" href="/listings">Explore</a>
       </div>
       <div class="navbar-nav ms-auto">
-        <form class="d-flex">
+        <form class="d-flex" onsubmit="return handleSearch(event)">
           <input class="form-control search-input me-2" type="search" name="search" placeholder="Search destinations">
-          <button class="btn btn-search" type="button" onclick="
-          var search = document.querySelector('.search-input').value;
-          var url = '<%= url %>'; // Make sure `url` is defined in your template
-          window.location.href = url + '&search=' + encodeURIComponent(search);
-        ">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          Search
-        </button>
-        
-           
+          <button class="btn btn-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Search
+          </button>
         </form>
       </div>
       <div class="navbar-nav ms-auto">
@@ -61,4 +78,13 @@
   </div>
 </nav>
 
-
+<script>
+function handleSearch(event) {
+  event.preventDefault();
+  var search = document.querySelector('.search-input').value;
+  var currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('search', search);
+  window.location.href = currentUrl.toString();
+  return false;
+}
+</script>
