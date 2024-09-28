@@ -8,9 +8,11 @@ module.exports.index = async (req, res) => {
     let flashMessage = req.flash("error"); // Get flash message from session
     let allListings;
 
+  const url = '/listings'; // Adjust this based on your routing structure
+
     const handleEmptySearch = () => {
         req.flash("error", "Search value empty!!!");
-        return res.redirect("/listings");
+        return res.redirect(url);
     };
 
     const formatSearchInput = (input) => {
