@@ -2,18 +2,10 @@ const Listing = require("../models/listing");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
-
 module.exports.index = async (req, res) => {
     const { category, search } = req.query;
-    let flashMessage = req.flash("error"); // Get flash message from session
+    let flashMessage = req.flash("error");
     let allListings;
-
-  const url = '/listings'; // Adjust this based on your routing structure
-
-    const handleEmptySearch = () => {
-        req.flash("error", "Search value empty!!!");
-        return res.redirect(url);
-    };
 
     const formatSearchInput = (input) => {
         return input.trim().replace(/\s+/g, " ").split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
@@ -50,16 +42,17 @@ module.exports.index = async (req, res) => {
     };
 
     if (search) {
-        const input = req.query.search.trim();
+        const input = search.trim();
         if (!input) {
-            return handleEmptySearch();
+            req.flash("error", "Search value empty!!!");
+            return res.redirect('/listings');
         }
 
         const element = formatSearchInput(input);
         let result = await searchListings(element);
         if (result) {
             res.locals.success = result.message;
-            return res.render("listings/index.ejs", { allListings: result.listings,flashMessage });
+            return res.render("listings/index.ejs", { allListings: result.listings, flashMessage });
         }
 
         const arr = element.split(" ");
@@ -67,7 +60,7 @@ module.exports.index = async (req, res) => {
             result = await searchByPrice(arr[0], arr[2]);
             if (result) {
                 res.locals.success = result.message;
-                return res.render("listings/index.ejs", { allListings: result.listings,flashMessage });
+                return res.render("listings/index.ejs", { allListings: result.listings, flashMessage });
             }
         }
 
@@ -83,6 +76,7 @@ module.exports.index = async (req, res) => {
 
     res.render("listings/index.ejs", { allListings, flashMessage });
 };
+
 
 
 module.exports.renderNewForm = (req, res) => {
